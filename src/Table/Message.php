@@ -9,7 +9,8 @@ class Message extends Backend
 {
     public function listMailjetTemplates()
     {
+        dump(func_get_args());
         $mailjet = new Client($GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_public'], $GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_private']);
-        var_dump($mailjet->get('template'));
+        dump($mailjet->get('template'));
     }
 }
