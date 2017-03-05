@@ -2,7 +2,6 @@
 
 namespace mindbird\NotificationCenter\Table;
 
-
 use Contao\Backend;
 use Mailjet\Client;
 
