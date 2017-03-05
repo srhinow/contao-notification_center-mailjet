@@ -1,6 +1,6 @@
 <?php
 $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_private'] = array(
-    'label' => &$GLOBALS['TL_LANG']['tl_settings']['mailjet_apikey_private'],
+    'label' => &$GLOBALS['TL_LANG']['tl_nc_gateway']['mailjet_apikey_private'],
     'exclude' => true,
     'inputType' => 'text',
     'eval' => array(
@@ -10,7 +10,7 @@ $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_private'] = array(
     )
 );
 $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_public'] = array(
-    'label' => &$GLOBALS['TL_LANG']['tl_settings']['mailjet_apikey_public'],
+    'label' => &$GLOBALS['TL_LANG']['tl_nc_gateway']['mailjet_apikey_public'],
     'exclude' => true,
     'inputType' => 'text',
     'eval' => array(
