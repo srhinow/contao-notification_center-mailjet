@@ -12,6 +12,7 @@ class Mailjet implements GatewayInterface
 
     public function send(Message $objMessage, array $arrTokens, $strLanguage = '')
     {
+        dump($this);
         $mailjet = new Client($GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_public'], $GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_private']);
         $body = [
             'FromEmail' => "pilot@mailjet.com",
