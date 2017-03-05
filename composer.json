@@ -1,0 +1,30 @@
+{
+  "name": "mindbird/contao-notification_center-mailjet",
+  "description": "Adds mailjet gateway to notification center for contao",
+  "minimum-stability": "stable",
+  "keywords":["contao", "notification", "center", "mailjet"],
+  "type":"contao-module",
+  "license":"LGPL-3.0+",
+  "authors": [
+    {
+      "name": "mindbird",
+      "email": "info@mindbird.de"
+    }
+  ],
+  "require": {
+    "terminal42/notification_center": "^1.4",
+    "mailjet/mailjet-apiv3-php": "^1.1"
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "contao": "system/modules/notification_center-mailjet"
+      }
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "mindbird\\NotificationCenter\\": "src/"
+    }
+  },
+}
