@@ -1,4 +1,5 @@
 <?php
+
 $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_private'] = array(
     'label' => &$GLOBALS['TL_LANG']['tl_nc_gateway']['mailjet_apikey_private'],
     'exclude' => true,
@@ -9,6 +10,7 @@ $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_private'] = array(
         'tl_class' => 'w50'
     )
 );
+
 $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_public'] = array(
     'label' => &$GLOBALS['TL_LANG']['tl_nc_gateway']['mailjet_apikey_public'],
     'exclude' => true,
