@@ -7,10 +7,16 @@ use Mailjet\Client;
 
 class Message extends Backend
 {
-    public function listMailjetTemplates()
+    public function listMailjetTemplates($value, $datacontainer)
     {
-        dump(func_get_args());
-        $mailjet = new Client($GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_public'], $GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_private']);
-        dump($mailjet->get('template'));
+        $message  = \NotificationCenter\Model\Message::findBy('id', $datacontainer->id);
+        if ($message) {
+            $gateway = $message->getRelated('gateway');
+            if ($gateway->type == 'mailjet') {
+                $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
+                dump($mailjet->get('template'));
+            }
+
+        }
     }
 }
