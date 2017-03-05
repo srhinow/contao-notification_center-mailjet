@@ -13,6 +13,7 @@ class Message extends Backend
         if ($message) {
             $gateway = $message->getRelated('gateway');
             if ($gateway->type == 'mailjet') {
+                dump($gateway);
                 $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
                 dump($mailjet->get('template'));
             }
