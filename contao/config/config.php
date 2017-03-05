@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['NOTIFICATION_CENTER']['GATEWAY']['mailjet'] = 'mindbird\NotificationCenter\Gateway\Mailjet';
+
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['mailjet'] = array
 (
     // Type
