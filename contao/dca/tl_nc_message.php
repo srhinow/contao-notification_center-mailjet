@@ -17,7 +17,7 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_recipients'] = array
 (
     'label'                   => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_recipients'],
     'inputType'               => 'text',
-    'eval'                    => array('rgxp'=>'nc_tokens', 'tl_class'=>'long clr', 'decodeEntities'=>true, 'mandatory'=>true),
+    'eval'                    => array('tl_class'=>'long clr', 'decodeEntities'=>true, 'mandatory'=>true),
     'sql'                     => "varchar(255) NOT NULL default ''",
     'save_callback' => array
     (

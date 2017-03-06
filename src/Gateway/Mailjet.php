@@ -32,7 +32,7 @@ class Mailjet implements GatewayInterface
             'MJ-TemplateID' => $objMessage->mailjet_template,
             'MJ-TemplateLanguage' => true,
             'Recipients' => $recipients,
-            'Vars' => json_encode($vars)
+            'Vars' => $vars
         ];
         $response = $mailjet->post(Resources::$Email, ['body' => $body]);
         if (!$response->success()) {
