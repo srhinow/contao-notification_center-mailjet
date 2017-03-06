@@ -44,8 +44,5 @@ class Mailjet implements GatewayInterface
         if (!$response->success()) {
             dump($response);
         }
-
-        dump($response);
-        die();
     }
 }
