@@ -34,6 +34,7 @@ class Mailjet implements GatewayInterface
             'FromEmail' => $objMessage->mailjet_sender_address,
             'FromName' => $objMessage->mailjet_sender_name,
             'Subject' => $objMessage->mailjet_subject,
+            'MJ-TemplateErrorReporting' => $GLOBALS['TL_CONFIG']['adminEmail'],
             'MJ-TemplateID' => $objMessage->mailjet_template,
             'MJ-TemplateLanguage' => true,
             'Recipients' => $recipients,
@@ -43,5 +44,8 @@ class Mailjet implements GatewayInterface
         if (!$response->success()) {
             dump($response);
         }
+
+        dump($response);
+        die();
     }
 }
