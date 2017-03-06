@@ -2,12 +2,14 @@
 
 namespace mindbird\NotificationCenter\Gateway;
 
+use Contao\System;
 use Mailjet\Client;
 use Mailjet\Resources;
 use NotificationCenter\Gateway\GatewayInterface;
 use NotificationCenter\Model\Gateway;
 use NotificationCenter\Model\Message;
 use NotificationCenter\Util\StringUtil;
+use Psr\Log\LogLevel;
 
 class Mailjet implements GatewayInterface
 {
@@ -38,5 +40,9 @@ class Mailjet implements GatewayInterface
         if (!$response->success()) {
             dump($response);
         }
+
+        $logger = System::getContainer()->get('monolog.logger.contao');
+        $logger->log(LogLevel::INFO, $response->getData());
+
     }
 }
