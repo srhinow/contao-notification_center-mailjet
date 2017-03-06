@@ -31,6 +31,9 @@ class Mailjet implements GatewayInterface
         }
 
         $body = [
+            'FromEmail' => $objMessage->mailjet_sender_address,
+            'FromName' => $objMessage->mailjet_sender_name,
+            'Subject' => $objMessage->mailjet_subject,
             'MJ-TemplateID' => $objMessage->mailjet_template,
             'MJ-TemplateLanguage' => true,
             'Recipients' => $recipients,
