@@ -3,27 +3,40 @@
 namespace mindbird\NotificationCenter\Gateway;
 
 use Mailjet\Client;
+use Mailjet\Resources;
 use NotificationCenter\Gateway\GatewayInterface;
+use NotificationCenter\Model\Gateway;
 use NotificationCenter\Model\Message;
-
+use NotificationCenter\Util\StringUtil;
 
 class Mailjet implements GatewayInterface
 {
 
     public function send(Message $objMessage, array $arrTokens, $strLanguage = '')
     {
-        dump($this);
-        $mailjet = new Client($GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_public'], $GLOBALS['TL_CONFIG']['be_notification_center_mailjet_apikey_private']);
+        $gateway = Gateway::findBy('id', $objMessage->gateway);
+        $vars = array();
+        foreach ($arrTokens as $key => $value) {
+            if (preg_match_all('/form_/', $key)) {
+                $vars[$key] = $value;
+            }
+        }
+
+        $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
+        $recipients = array();
+        foreach (StringUtil::compileRecipients($objMessage->mailjet_recipients, $arrTokens) as $recipient) {
+            $recipients[] = ['Email' => $recipient];
+        }
+
         $body = [
-            'FromEmail' => "pilot@mailjet.com",
-            'FromName' => "Mailjet Pilot",
-            'Subject' => "Your email flight plan!",
-            'MJ-TemplateID' => 1,
+            'MJ-TemplateID' => $objMessage->mailjet_template,
             'MJ-TemplateLanguage' => true,
-            'Recipients' => [['Email' => "passenger@mailjet.com"]],
-            'Vars' => ''
+            'Recipients' => $recipients,
+            'Vars' => json_encode($vars)
         ];
         $response = $mailjet->post(Resources::$Email, ['body' => $body]);
-        $response->success() && var_dump($response->getData());
+        if (!$response->success()) {
+            dump($response);
+        }
     }
 }

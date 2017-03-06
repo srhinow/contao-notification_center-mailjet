@@ -8,7 +8,8 @@ $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_private'] = array(
         'mandatory' => true,
         'maxlength' => 255,
         'tl_class' => 'w50'
-    )
+    ),
+    'sql' => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_public'] = array(
@@ -19,7 +20,8 @@ $GLOBALS['TL_DCA']['tl_nc_gateway']['fields']['mailjet_apikey_public'] = array(
         'mandatory' => true,
         'maxlength' => 255,
         'tl_class' => 'w50'
-    )
+    ),
+    'sql' => "varchar(255) NOT NULL default ''"
 );
 
 $GLOBALS['TL_DCA']['tl_nc_gateway']['palettes']['mailjet'] = '{title_legend},title,type;{gateway_legend},mailjet_apikey_public,mailjet_apikey_private';
