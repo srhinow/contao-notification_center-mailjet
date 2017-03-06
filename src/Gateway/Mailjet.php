@@ -40,9 +40,5 @@ class Mailjet implements GatewayInterface
         if (!$response->success()) {
             dump($response);
         }
-
-        $logger = System::getContainer()->get('monolog.logger.contao');
-        $logger->log(LogLevel::INFO, $response->getData());
-
     }
 }
