@@ -28,11 +28,11 @@
     "friendsofphp/php-cs-fixer": "^2.12"
   },
   "extra": {
-    "contao-manager-plugin": "Mindbird\\Contao\\MailjetNotificationBundle\\ContaoManager\\Plugin"
+    "contao-manager-plugin": "Mindbird\\Contao\\MailjetNotification\\ContaoManager\\Plugin"
   },
   "autoload": {
     "psr-4": {
-      "Mindbird\\Contao\\MailjetNotificationBundle\\": "src/"
+      "Mindbird\\Contao\\MailjetNotification\\": "src/"
     }
   }
 }
