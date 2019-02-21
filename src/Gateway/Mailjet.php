@@ -1,23 +1,28 @@
 <?php
 
-namespace mindbird\NotificationCenter\Gateway;
+/*
+ * This file is part of mindbird/contao-notification_center-mailjet.
+ *
+ * (c) mindbird <https://www.mindbird.de>
+ *
+ * @license LGPL-3.0-or-later
+ */
 
-use Contao\System;
+namespace Mindbird\Contao\MailjetNotification\Gateway;
+
 use Mailjet\Client;
 use Mailjet\Resources;
 use NotificationCenter\Gateway\GatewayInterface;
 use NotificationCenter\Model\Gateway;
 use NotificationCenter\Model\Message;
 use NotificationCenter\Util\StringUtil;
-use Psr\Log\LogLevel;
 
 class Mailjet implements GatewayInterface
 {
-
     public function send(Message $objMessage, array $arrTokens, $strLanguage = '')
     {
         $gateway = Gateway::findBy('id', $objMessage->gateway);
-        $vars = array();
+        $vars = [];
         foreach ($arrTokens as $key => $value) {
             if (preg_match_all('/form_/', $key)) {
                 $vars[$key] = $value;
@@ -25,7 +30,7 @@ class Mailjet implements GatewayInterface
         }
 
         $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
-        $recipients = array();
+        $recipients = [];
         foreach (StringUtil::compileRecipients($objMessage->mailjet_recipients, $arrTokens) as $recipient) {
             $recipients[] = ['Email' => $recipient];
         }
@@ -38,7 +43,7 @@ class Mailjet implements GatewayInterface
             'MJ-TemplateID' => $objMessage->mailjet_template,
             'MJ-TemplateLanguage' => true,
             'Recipients' => $recipients,
-            'Vars' => $vars
+            'Vars' => $vars,
         ];
         $response = $mailjet->post(Resources::$Email, ['body' => $body]);
         if (!$response->success()) {

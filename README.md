@@ -1,2 +1,2 @@
 # contao-notification_center-mailjet
-Adds mailjet gateway to notification center for contao
+Add mailjet gateway to notification center for contao

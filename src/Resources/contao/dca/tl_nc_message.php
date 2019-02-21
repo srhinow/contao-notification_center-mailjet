@@ -9,8 +9,8 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_template'] = array(
         'tl_class' => 'w50',
         'choosen' => true
     ),
-    'sql' => "varchar(16) NOT NULL default '0'",
-    'options_callback' => array('mindbird\NotificationCenter\Table\Message', 'listMailjetTemplates')
+    'sql' => "varchar(16) NOT NULL default ''",
+    'options_callback' => array(\Mindbird\Contao\MailjetNotification\Table\Message::class, 'listMailjetTemplates')
 );
 
 $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_recipients'] = array
