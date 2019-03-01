@@ -28,7 +28,10 @@ class Plugin implements BundlePluginInterface
     {
         return [
             BundleConfig::create(MailjetNotificationBundle::class)
-                ->setLoadAfter([ContaoCoreBundle::class, 'notification_center']),
+                ->setLoadAfter([
+                    ContaoCoreBundle::class,
+                    'notification_center',
+                ]),
         ];
     }
 }
