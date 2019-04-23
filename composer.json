@@ -14,7 +14,6 @@
   "require": {
     "php": "^5.6 || ^7.0",
     "contao/core-bundle": "^4.4",
-    "symfony/framework-bundle": "^3.3",
     "terminal42/notification_center": "^1.5",
     "mailjet/mailjet-apiv3-php": "^1.4"
   },
