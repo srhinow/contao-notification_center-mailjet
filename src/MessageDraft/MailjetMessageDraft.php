@@ -5,6 +5,7 @@ namespace Mindbird\Contao\MailjetNotification\MessageDraft;
 
 
 use Contao\File;
+use Contao\FilesModel;
 use NotificationCenter\MessageDraft\MessageDraftInterface;
 use NotificationCenter\Model\Language;
 use NotificationCenter\Model\Message;
@@ -68,11 +69,15 @@ class MailjetMessageDraft implements MessageDraftInterface
                 $objFiles = \FilesModel::findMultipleByUuids($arrStaticAttachments);
                 if ($objFiles !== null) {
                     while ($objFiles->next()) {
-                        $this->attachments[] = [
-                            'Base64Content' => base64_encode(file_get_contents(TL_ROOT . '/' . $objFiles->path)),
-                            'Filename' => $objFiles->filename,
-                            'ContentType' => $objFiles->mime
-                        ];
+                        $file = new File($objFiles->path);
+                        if (!$file->exists()) {
+                            continue;
+                        }
+                        $attachment = new \stdClass();
+                        $attachment->Base64Content = base64_encode($file->getContent());
+                        $attachment->Filename = $file->name;
+                        $attachment->ContentType = $file->mime;
+                        $this->attachments[] = $attachment;
                     }
                 }
             }
@@ -101,7 +106,7 @@ class MailjetMessageDraft implements MessageDraftInterface
                         }
                         $this->stringAttachments[$objFiles->name] = [
                             'Base64Content' => base64_encode(\Haste\Util\StringUtil::recursiveReplaceTokensAndTags($file->getContent(), $this->arrTokens)),
-                            'Filename' => $file->filename,
+                            'Filename' => $file->name,
                             'ContentType' => $file->mime
                         ];
                     }
@@ -143,5 +148,13 @@ class MailjetMessageDraft implements MessageDraftInterface
     public function getLanguage()
     {
         return $this->objLanguage->language;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLanguageObject()
+    {
+        return $this->objLanguage;
     }
 }

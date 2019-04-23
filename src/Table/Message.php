@@ -11,17 +11,19 @@
 namespace Mindbird\Contao\MailjetNotification\Table;
 
 use Contao\Backend;
+use Contao\System;
 use Mailjet\Client;
 use Mailjet\Resources;
+use NotificationCenter\Model\Language;
 
 class Message extends Backend
 {
     public function listMailjetTemplates($datacontainer)
     {
-        $message = \NotificationCenter\Model\Message::findBy('id', $datacontainer->id);
+        $language = Language::findBy('id', $datacontainer->id);
         $options = [];
-        if ($message) {
-            $gateway = $message->getRelated('gateway');
+        if ($language) {
+            $gateway = $language->getRelated('pid')->getRelated('gateway');
             if ('mailjet' === $gateway->type) {
                 $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
                 $filters = [
@@ -33,7 +35,7 @@ class Message extends Backend
                         $options[$template['ID']] = $template['Name'];
                     }
                 } else {
-                    dump($response->getStatus());
+                    System::log($response->getStatus(), __FUNCTION__, __CLASS__);
                 }
             }
         }

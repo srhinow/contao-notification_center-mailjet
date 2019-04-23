@@ -29,9 +29,17 @@ class Mailjet extends Base implements GatewayInterface, MessageDraftFactoryInter
 {
     public function send(Message $objMessage, array $arrTokens, $strLanguage = '')
     {
+        $tokens = [];
+        foreach ($arrTokens as $key => $value) {
+            if (!preg_match_all('/raw_data/', $key) && !preg_match_all('/formconfig_/', $key)) {
+                $tokens[$key] = $value;
+            }
+        }
         $gateway = Gateway::findBy('id', $objMessage->gateway);
-        $draft = $this->createDraft($objMessage, $arrTokens, $strLanguage);
-        $this->sendDraft($draft, $gateway, $objMessage, $token);
+        $draft = $this->createDraft($objMessage, $tokens, $strLanguage);
+        if ($draft !== null) {
+            $this->sendDraft($draft, $gateway);
+        }
     }
 
     /**
@@ -58,11 +66,13 @@ class Mailjet extends Base implements GatewayInterface, MessageDraftFactoryInter
      * @return bool
      * @throws \Exception
      */
-    public function sendDraft(MailjetMessageDraft $objDraft, Gateway $gateway, Message $message, $token)
+    public function sendDraft(MessageDraftInterface $objDraft, Gateway $gateway)
     {
-        $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private);
+        $token = $objDraft->getTokens();
+        $language = $objDraft->getLanguageObject();
+        $mailjet = new Client($gateway->mailjet_apikey_public, $gateway->mailjet_apikey_private, true, ['version' => 'v3.1']);
         $recipients = [];
-        foreach (StringUtil::compileRecipients($message->mailjet_recipients, $token) as $recipient) {
+        foreach (StringUtil::compileRecipients($language->mailjet_recipients, $token) as $recipient) {
             $recipients[] = ['Email' => $recipient];
         }
 
@@ -80,20 +90,26 @@ class Mailjet extends Base implements GatewayInterface, MessageDraftFactoryInter
         }
 
         $body = [
-            'FromEmail' => $message->mailjet_sender_address,
-            'FromName' => $message->mailjet_sender_name,
-            'Subject' => $message->mailjet_subject,
-            'MJ-TemplateErrorReporting' => $GLOBALS['TL_CONFIG']['adminEmail'],
-            'MJ-TemplateID' => $message->mailjet_template,
-            'MJ-TemplateLanguage' => true,
-            'Recipients' => $recipients,
-            'Vars' => $token,
-            'Attachments' => $attachements
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => $language->mailjet_sender_address,
+                        'Name' => $language->mailjet_sender_name
+                    ],
+                    'Subject' => $language->mailjet_subject,
+                    'TemplateErrorReporting' => $GLOBALS['TL_CONFIG']['adminEmail'],
+                    'TemplateID' => $language->mailjet_template,
+                    'TemplateLanguage' => true,
+                    'To' => $recipients,
+                    'Variables' => $token,
+                    'Attachments' => $attachements
+                ]
+            ]
         ];
         $response = $mailjet->post(Resources::$Email, ['body' => $body]);
         if (!$response->success()) {
             $logger = System::getContainer()->get('monolog.logger.contao');
-            $logger->log(LogLevel::ERROR, $response, array('contao' => new ContaoContext(__FUNCTION__, __CLASS__)));
+            $logger->log(LogLevel::ERROR, json_encode($response), array('contao' => new ContaoContext(__FUNCTION__, __CLASS__)));
             return false;
         }
 

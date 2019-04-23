@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_template'] = array(
+$GLOBALS['TL_DCA']['tl_nc_language']['fields']['mailjet_template'] = array(
     'label' => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_template'],
     'inputType' => 'select',
     'eval' => array(
@@ -10,10 +10,11 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_template'] = array(
         'choosen' => true
     ),
     'sql' => "varchar(16) NOT NULL default ''",
-    'options_callback' => array('mindbird\NotificationCenter\Table\Message', 'listMailjetTemplates')
+    'options_callback' => array(\Mindbird\Contao\MailjetNotification\Table\Message::class, 'listMailjetTemplates')
 );
 
-$GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_recipients'] = array
+
+$GLOBALS['TL_DCA']['tl_nc_language']['fields']['mailjet_recipients'] = array
 (
     'label' => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_recipients'],
     'inputType' => 'text',
@@ -25,7 +26,7 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_recipients'] = array
     )
 );
 
-$GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_sender_name'] = array
+$GLOBALS['TL_DCA']['tl_nc_language']['fields']['mailjet_sender_name'] = array
 (
     'label' => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_sender_name'],
     'exclude' => true,
@@ -33,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_sender_name'] = array
     'eval' => array('rgxp' => 'nc_tokens', 'decodeEntities' => true, 'maxlength' => 255, 'tl_class' => 'w50'),
     'sql' => "varchar(255) NOT NULL default ''",
 );
-$GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_sender_address'] = array
+$GLOBALS['TL_DCA']['tl_nc_language']['fields']['mailjet_sender_address'] = array
 (
     'label' => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_sender_address'],
     'exclude' => true,
@@ -46,7 +47,7 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_sender_address'] = array
     )
 );
 
-$GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_subject'] = array
+$GLOBALS['TL_DCA']['tl_nc_language']['fields']['mailjet_subject'] = array
 (
     'label' => &$GLOBALS['TL_LANG']['tl_nc_message']['mailjet_subject'],
     'exclude' => true,
@@ -55,4 +56,4 @@ $GLOBALS['TL_DCA']['tl_nc_message']['fields']['mailjet_subject'] = array
     'sql' => "varchar(255) NOT NULL default ''"
 );
 
-$GLOBALS['TL_DCA']['tl_nc_message']['palettes']['mailjet'] = '{title_legend},title,gateway;{mailjet_legend},mailjet_template,mailjet_sender_name,mailjet_sender_address,mailjet_recipients,mailjet_subject;{publish_legend},published';
+$GLOBALS['TL_DCA']['tl_nc_language']['palettes']['mailjet'] = '{general_legend},language,fallback;{mailjet_legend},mailjet_template,mailjet_sender_name,mailjet_sender_address,mailjet_recipients,mailjet_subject;{attachments_legend},attachments,attachment_templates,attachment_tokens';
