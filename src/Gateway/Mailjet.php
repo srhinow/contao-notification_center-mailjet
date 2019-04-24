@@ -96,11 +96,13 @@ class Mailjet extends Base implements GatewayInterface, MessageDraftFactoryInter
                         'Email' => $language->mailjet_sender_address,
                         'Name' => $language->mailjet_sender_name
                     ],
-                    'Subject' => $language->mailjet_subject,
-                    'TemplateErrorReporting' => $GLOBALS['TL_CONFIG']['adminEmail'],
-                    'TemplateID' => $language->mailjet_template,
-                    'TemplateLanguage' => true,
                     'To' => $recipients,
+                    'Subject' => $language->mailjet_subject,
+                    'TemplateErrorReporting' => [
+                        'Email' => $GLOBALS['TL_CONFIG']['adminEmail']
+                    ],
+                    'TemplateID' => (int)$language->mailjet_template,
+                    'TemplateLanguage' => true,
                     'Variables' => $token,
                     'Attachments' => $attachements
                 ]
